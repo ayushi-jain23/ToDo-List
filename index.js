@@ -65,7 +65,7 @@ function edit(e){
         parentsElement.innerHTML = '';
 
         let textElement1 = document.createElement("div");
-        textElement1.classList.add('text-element1');
+        textElement1.classList.add('text-element');
         textElement1.innerHTML = textValue1;
         parentsElement.appendChild(textElement1);
 
