@@ -1,113 +1,130 @@
-let addText = document.querySelector("input");
-let addButton = document.querySelector("button");
-let todoList = document.querySelector(".todo-list")
+let addText = document.querySelector('textarea');
+let addButton = document.querySelector('button');
+let todoList = document.querySelector('.todo-list');
 
-addButton.addEventListener("click", function (e) {
-
-    if (addText.value !== "") {
-        let textValue = addText.value;
-        addText.value = "";
-
-        let entityParent = document.createElement("div");
-        entityParent.classList.add('todo-element');
-        todoList.appendChild(entityParent)
-
-        let textElement = document.createElement("div");
-        textElement.classList.add('text-element');
-        textElement.innerHTML = textValue;
-        entityParent.appendChild(textElement);
-
-        let deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "Delete";
-        deleteButton.classList.add('delete-button');
-        entityParent.appendChild(deleteButton);
-        deleteButton.addEventListener("click",del);
-
-        let editButton = document.createElement("button");
-        editButton.innerHTML = "Edit";
-        editButton.classList.add('edit-button');
-        entityParent.appendChild(editButton);
-        editButton.addEventListener("click",edit);
-    }
-    else{
-        alert("Please enter some value")
+addText.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        CreateDiv();
     }
 });
 
-function del(e){
-    let clickedTask = e.target.parentElement;
-    clickedTask.remove();
-}
+addButton.addEventListener('click', function (e) {
+    CreateDiv();
+});
 
-function edit(e){
-    let parentsElement= e.target.parentElement;
-    let inputContent= parentsElement.querySelector('.text-element');
-    let taskName = inputContent.innerHTML;
+todoList.addEventListener('click', function (e) {
+    let n = e.target.innerHTML;
+    let parentsElement = e.target.parentElement;
 
-    parentsElement.innerHTML = ''
+    if (n === 'Delete') {
+        e.target.parentElement.remove();
+    }
+    if (n === 'Edit') {
+        let divElement = parentsElement.querySelector('.text-element');
+        let taskName = divElement.innerHTML;
+        divElement.remove();
 
-    let newTextElement = document.createElement("input");
-    newTextElement.classList.add('new-element');
-    parentsElement.appendChild(newTextElement);
+        let textArea = document.createElement('textarea');
+        textArea.classList.add('text-area');
+        parentsElement.prepend(textArea);
+        textArea.value = taskName;
+        textArea.setAttribute('data-name', taskName);
 
-    let updateButton = document.createElement("button");
-    updateButton.innerHTML = "Update";
-    updateButton.classList.add('update-button');
-    parentsElement.appendChild(updateButton);
+        parentsElement.querySelector('.del-up-button').innerHTML = 'Update';
+        parentsElement.querySelector('.edit-can-button').innerHTML = 'Cancel';
 
-    updateButton.addEventListener("click",function (e) {
+        textArea.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                UpdateButton(parentsElement);
+            }
+        });
+    }
+    if (n === 'Cancel') {
+        let textArea = parentsElement.querySelector('.text-area');
+        let textValue = textArea.getAttribute('data-name');
+        CancelUpdate(textValue);
+    }
+    if (n === 'Update') {
+        UpdateButton(parentsElement);
+    }
 
-        let addText1 = document.querySelector(".new-element");
-        let textValue1 = addText1.value;
-        console.log(textValue1)
+    if (n === 'More') {
+        let textElement = parentsElement.querySelector('.text-element');
+        let moreButton = parentsElement.querySelector('.showContent');
+        moreButton.addEventListener('click', function (e) {
+            textElement.classList.remove('more-css');
+            moreButton.innerHTML = 'Less';
+            console.log(moreButton.innerHTML);
+        });
+    }
+    if (n === 'Less') {
+        let textElement = parentsElement.querySelector('.text-element');
+        let moreButton = parentsElement.querySelector('.showContent');
+        moreButton.addEventListener('click', function (e) {
+            textElement.classList.add('more-css');
+            moreButton.innerHTML = 'More';
+            console.log(moreButton.innerHTML);
+        });
+    }
 
-        addText1.value = "";
-        parentsElement.innerHTML = '';
+    function UpdateButton(parentsElement) {
+        let textArea = parentsElement.querySelector('.text-area');
+        CancelUpdate(textArea.value);
+    }
 
-        let textElement1 = document.createElement("div");
-        textElement1.classList.add('text-element');
-        textElement1.innerHTML = textValue1;
-        parentsElement.appendChild(textElement1);
+    function CancelUpdate(val) {
+        let parentsElement = e.target.parentElement;
+        let textArea = parentsElement.querySelector('.text-area');
+        textArea.remove();
 
-        let deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "Delete";
-        deleteButton.classList.add('delete-button');
-        parentsElement.appendChild(deleteButton);
-        deleteButton.addEventListener("click",del);
-
-        let editButton = document.createElement("button");
-        editButton.innerHTML = "Edit";
-        editButton.classList.add('edit-button');
-        parentsElement.appendChild(editButton);
-        editButton.addEventListener("click",edit);
-    });
-
-    let cancelButton = document.createElement("button");
-    cancelButton.innerHTML = "Cancel";
-    cancelButton.classList.add('cancel-button');
-    parentsElement.appendChild(cancelButton);
-
-    cancelButton.addEventListener("click",function (e){
-        parentsElement.innerHTML = "";
-
-        let textElement = document.createElement("div");
+        let textElement = document.createElement('div');
         textElement.classList.add('text-element');
-        textElement.innerHTML = taskName;
-        parentsElement.appendChild(textElement);
+        parentsElement.prepend(textElement);
+        textElement.innerHTML = val;
 
-        let deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "Delete";
-        deleteButton.classList.add('delete-button');
-        parentsElement.appendChild(deleteButton);
-        deleteButton.addEventListener("click",del);
+        parentsElement.querySelector('.del-up-button').innerHTML = 'Delete';
+        parentsElement.querySelector('.edit-can-button').innerHTML = 'Edit';
+    }
+});
 
-        let editButton = document.createElement("button");
-        editButton.innerHTML = "Edit";
-        editButton.classList.add('edit-button');
-        parentsElement.appendChild(editButton);
-        editButton.addEventListener("click",edit);
+function CreateDiv() {
+    if (addText.value !== '') {
+        let textValue = addText.value;
+        addText.value = '';
 
-    });
+        let entityParent = document.createElement('div');
+        entityParent.classList.add('todo-element');
+        todoList.prepend(entityParent);
+
+        let textElement = document.createElement('div');
+        textElement.classList.add('text-element');
+        textElement.classList.add('more-css');
+        textElement.innerHTML = textValue;
+        textElement.setAttribute('data-name', textValue);
+        entityParent.appendChild(textElement);
+
+        //window.innerWidth
+        let a = window.innerWidth;
+        // console.log("0.06"*a);
+        if (textValue.length>=(0.06*a)){
+            let expand = document.createElement('a');
+            let text = document.createTextNode('More');
+            expand.classList.add('showContent');
+            expand.appendChild(text);
+            expand.href = '#';
+            entityParent.appendChild(expand);
+        }
+
+        let deleteButton = document.createElement('button');
+        deleteButton.innerHTML = 'Delete';
+        deleteButton.classList.add('del-up-button');
+        entityParent.appendChild(deleteButton);
+
+        let editButton = document.createElement('button');
+        editButton.innerHTML = 'Edit';
+        editButton.classList.add('edit-can-button');
+        entityParent.appendChild(editButton);
+    } else {
+        alert('Please enter some value');
+    }
 }
-
-// TS010691251 //

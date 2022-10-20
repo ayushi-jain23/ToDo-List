@@ -1,0 +1,78 @@
+body{
+    text-align: center;
+    overflow-x: hidden;
+}
+body .crudlist{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+body .crudlist .text-area{
+    font-size: 18px;
+    padding: 12px;
+    width: 50%;
+    height: 100px;
+}
+body .crudlist .add-button{
+    margin: 10px;
+    font-size: 15px;
+    padding: 10px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 15%;
+}
+body .crudlist .add-button:hover {
+    background-color: #145bb8;
+}
+body .todo-list .todo-element{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3% 0;
+    word-break: break-all;
+}
+body .todo-list .todo-element .more-css{
+    /*  NEW FOR MORE BUTTON */
+    white-space: nowrap;
+    width: 52%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+body .todo-list .todo-element .text-element{
+    font-size: 18px;
+    padding: 2px;
+    width: 52%;
+    margin-left: 6%;
+}
+body .todo-list .todo-element .text-area{
+    font-size: 18px;
+    padding: 12px;
+    width: 52%;
+    height: 100px;
+    margin-left: 9%;
+}
+body .todo-list .todo-element .del-up-button{
+    margin-left: 1%;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 15%;
+    font-size: 15px;
+    padding: 10px;
+}
+body .todo-list .todo-element .del-up-button:hover {
+    background-color: #145bb8;
+}
+body .todo-list .todo-element .edit-can-button{
+    margin-left: 5px;
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    border-radius: 15%;
+    font-size: 15px;
+    padding: 10px;
+}
+body .todo-list .todo-element .edit-can-button:hover {
+    background-color: #145bb8;
+}
